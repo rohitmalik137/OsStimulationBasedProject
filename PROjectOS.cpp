@@ -4,6 +4,7 @@ using namespace std;
 
 int deleteElement(int trash[], int n, int x) 
 {
+//	cout<<"Lucifer";
    // Search x in array 
    int i; 
    for (i=0; i<n; i++) 
@@ -25,7 +26,7 @@ int deleteElement(int trash[], int n, int x)
 int main() 
 {
 	// P0, P1, P2, P3, P4 are the Process names here 
-	printf("======================================================================================================\n						BANKER'S ALGORITHM\n====================================================================================================== \n\n");
+	printf("======================================================================================================\n						OS Project\n====================================================================================================== \n\n");
 	int p,r;
 	cout<<"Enter the number of process: ";
 	cin>>p;		 	// Number of processes
@@ -94,7 +95,10 @@ int main()
 		}
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-	int result,n,count = 0,count1=0,l=0,fi = 0,trash[p];
+	int result,n,count = 0,count1=0,l=0,fi = 0,trash[p],pro_seq[p];
+	for(int i=0;i<p;i++){
+		pro_seq[i] = 0;
+	}
 	for(int i=0;i<p;i++){
 		trash[i] = i+1;
 	}
@@ -110,12 +114,14 @@ int main()
 			}
 		}
 		if(count == r){
+//			cout<<"Amenadiel";
 			for(int j=0;j<r;j++){
 				avail[fi+1][j] = avail[fi][j] + alloc[i][j];
 				count1++;  
 			}
 			if(count1>0){
 				n = sizeof(trash)/sizeof(trash[0])-q;
+				pro_seq[q] = trash[i-l];
 			    n = deleteElement(trash, n, trash[i-l]);
 			    l++;
 			    q++;
@@ -138,8 +144,9 @@ int main()
 		for(int j=0;j<r;j++){
 				avail[fi+1][j] = avail[fi][j] + alloc[final][j];
 			}
+	pro_seq[p-1] = trash[0];
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//Displaying The Content
+//Display
 	printf("\n _______________________________________________________________________________________");
 	printf("\n|  Process\t|  Allocation\t|  Max_Ne3d\t|  Available\t|  Remaining_Need\t|\n");
 	printf("|_______________|_______________|_______________|_______________|_______________________|\n");
@@ -204,5 +211,14 @@ int main()
 		}
 		printf("\t|\t\t\t|\n");
 		printf("|_______________|_______________|_______________|_______________|_______________________|\n");
+		
+		if(avail[fi+1][0]!=0){
+		cout<<"\nSystem is in safe state. ANd the safe sequence is:- ";
+		for(int i=0;i<p-1;i++){
+		cout<<"P"<<pro_seq[i]-1<<" -> ";
+		}cout<<"P"<<pro_seq[p-1]-1<<endl;
+		}else{
+			cout<<"\nSystem is not in safe state\n";
+		}
 		return (0); 
 } 
